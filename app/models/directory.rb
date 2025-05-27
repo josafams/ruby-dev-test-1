@@ -50,27 +50,46 @@ class Directory < FileSystemNode
     current
   end
 
-  def list_contents(recursive: false)
-    if recursive
-      descendants
-    else
-      children.order(:node_type, :name)
+  # Sei que não é melhor maneira mas so pra jogar o básico que é adiciona paginação e um cache
+  def list_contents(recursive: false, page: 1, per_page: 25)
+    cache_key = cache_key_for('list_contents', recursive, page, per_page)
+    
+    with_cache(cache_key, expires_in: 5.minutes) do
+      logger.debug "Listing contents for directory #{id}, recursive: #{recursive}, page: #{page}"
+      
+      if recursive
+        descendants.with_content.paginated(page, per_page)
+      else
+        children.with_content.order(:node_type, :name).paginated(page, per_page)
+      end
     end
   end
 
   def files_count(recursive: false)
-    if recursive
-      descendants.count(&:file?)
-    else
-      children.files.count
+    cache_key = cache_key_for('files_count', recursive)
+    
+    with_cache(cache_key, expires_in: 10.minutes) do
+      logger.debug "Counting files for directory #{id}, recursive: #{recursive}"
+      
+      if recursive
+        descendants.files.count
+      else
+        children.files.count
+      end
     end
   end
 
   def directories_count(recursive: false)
-    if recursive
-      descendants.count(&:directory?)
-    else
-      children.directories.count
+    cache_key = cache_key_for('directories_count', recursive)
+    
+    with_cache(cache_key, expires_in: 10.minutes) do
+      logger.debug "Counting directories for directory #{id}, recursive: #{recursive}"
+      
+      if recursive
+        descendants.directories.count
+      else
+        children.directories.count
+      end
     end
   end
 

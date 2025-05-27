@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_26_014033) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_26_020000) do
   create_table "file_contents", force: :cascade do |t|
     t.integer "file_system_node_id", null: false
     t.string "content_type"
@@ -38,6 +38,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_26_014033) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "children_count", default: 0, null: false
+    t.index ["children_count"], name: "index_file_system_nodes_on_children_count"
     t.index ["node_type"], name: "index_file_system_nodes_on_node_type"
     t.index ["parent_id", "name"], name: "index_file_system_nodes_on_parent_id_and_name", unique: true
     t.index ["parent_id"], name: "index_file_system_nodes_on_parent_id"

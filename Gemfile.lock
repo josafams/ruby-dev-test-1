@@ -100,6 +100,7 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
+    coderay (1.1.3)
     concurrent-ruby (1.3.5)
     connection_pool (2.5.3)
     crass (1.0.6)
@@ -134,6 +135,18 @@ GEM
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     json (2.12.2)
+    kaminari (1.2.2)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.2.2)
+      kaminari-activerecord (= 1.2.2)
+      kaminari-core (= 1.2.2)
+    kaminari-actionview (1.2.2)
+      actionview
+      kaminari-core (= 1.2.2)
+    kaminari-activerecord (1.2.2)
+      activerecord
+      kaminari-core (= 1.2.2)
+    kaminari-core (1.2.2)
     language_server-protocol (3.17.0.5)
     lint_roller (1.1.0)
     logger (1.7.0)
@@ -147,6 +160,7 @@ GEM
       net-smtp
     marcel (1.0.4)
     matrix (0.4.2)
+    method_source (1.1.0)
     mini_mime (1.1.5)
     minitest (5.25.5)
     msgpack (1.8.0)
@@ -185,6 +199,9 @@ GEM
       prettyprint
     prettyprint (0.2.0)
     prism (1.4.0)
+    pry (0.15.2)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
     psych (5.2.6)
       date
       stringio
@@ -193,6 +210,8 @@ GEM
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.1.15)
+    rack-mini-profiler (3.3.1)
+      rack (>= 1.2.0)
     rack-session (2.1.1)
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
@@ -234,9 +253,14 @@ GEM
     rdoc (6.14.0)
       erb
       psych (>= 4.0.0)
+    redis (5.4.0)
+      redis-client (>= 0.22.0)
+    redis-client (0.24.0)
+      connection_pool
     regexp_parser (2.10.0)
     reline (0.6.1)
       io-console (~> 0.5)
+    retries (0.0.5)
     rexml (3.4.1)
     rspec-core (3.13.3)
       rspec-support (~> 3.13.0)
@@ -291,12 +315,15 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    semantic_logger (4.16.1)
+      concurrent-ruby (~> 1.0)
     simplecov (0.22.0)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.13.1)
     simplecov_json_formatter (0.1.4)
+    spring (4.3.0)
     sprockets (4.2.2)
       concurrent-ruby (~> 1.0)
       logger
@@ -359,15 +386,22 @@ DEPENDENCIES
   factory_bot_rails
   importmap-rails
   jbuilder
+  kaminari
+  pry
   puma (>= 5.0)
+  rack-mini-profiler
   rails (~> 7.1.3)
+  redis (>= 4.0.1)
+  retries
   rspec-rails
   rubocop
   rubocop-performance
   rubocop-rails
   rubocop-rspec
   selenium-webdriver
+  semantic_logger
   simplecov
+  spring
   sprockets-rails
   sqlite3 (~> 1.4)
   stimulus-rails
