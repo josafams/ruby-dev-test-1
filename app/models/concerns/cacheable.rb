@@ -13,7 +13,7 @@ module Cacheable
       "#{name.underscore}:#{method}:#{args.map(&:to_s).join(':')}"
     end
 
-    def with_cache(key, expires_in: 1.hour, &block)
+    def with_cache(key, expires_in: 1.hour)
       Rails.cache.fetch(key, expires_in: expires_in) do
         logger.debug "Cache miss for key: #{key}"
         yield
@@ -25,7 +25,7 @@ module Cacheable
     "#{self.class.name.underscore}:#{id}:#{method}:#{args.map(&:to_s).join(':')}"
   end
 
-  def with_cache(key, expires_in: 1.hour, &block)
+  def with_cache(key, expires_in: 1.hour)
     Rails.cache.fetch(key, expires_in: expires_in) do
       logger.debug "Cache miss for key: #{key}"
       yield
@@ -33,13 +33,13 @@ module Cacheable
   end
 
   def expire_cache(pattern = nil)
-    if pattern
-      cache_key = cache_key_for(pattern)
-    else
-      cache_key = "#{self.class.name.underscore}:#{id}:*"
-    end
-    
+    cache_key = if pattern
+                  cache_key_for(pattern)
+                else
+                  "#{self.class.name.underscore}:#{id}:*"
+                end
+
     logger.debug "Expiring cache for pattern: #{cache_key}"
     Rails.cache.delete_matched(cache_key)
   end
-end 
+end

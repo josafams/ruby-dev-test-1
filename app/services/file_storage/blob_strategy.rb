@@ -10,7 +10,7 @@ module FileStorage
     def write_content(data)
       log_operation('Blob write') do
         if data.nil?
-          logger.debug "Writing empty blob data"
+          logger.debug 'Writing empty blob data'
           file_content.blob_data = nil
           file_content.content_size = 0
           file_content.checksum = Digest::SHA256.hexdigest('')
@@ -25,7 +25,7 @@ module FileStorage
 
     def delete_content
       log_operation('Blob delete') do
-        logger.debug "Deleting blob data"
+        logger.debug 'Deleting blob data'
         file_content.blob_data = nil
         file_content.content_size = 0
         true

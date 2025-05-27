@@ -23,15 +23,15 @@ module FileStorage
 
     protected
 
-    def log_operation(operation, &block)
+    def log_operation(operation)
       start_time = Time.current
       logger.info "Starting #{operation} for #{file_content.storage_type} storage"
-      
+
       result = yield
-      
+
       duration = Time.current - start_time
       logger.info "Completed #{operation} in #{duration.round(3)}s"
-      
+
       result
     rescue StandardError => e
       duration = Time.current - start_time

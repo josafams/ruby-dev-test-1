@@ -68,7 +68,7 @@ class FileSystemNode < ApplicationRecord
     with_cache(cache_key, expires_in: 15.minutes) do
       logger.debug "Computing descendants for directory #{id}"
       descendants = []
-      children.includes(:children).each do |child|
+      children.includes(:children).find_each do |child|
         descendants << child
         descendants.concat(child.descendants)
       end
@@ -114,7 +114,6 @@ class FileSystemNode < ApplicationRecord
                 end
   end
 
-
   def validate_parent_is_directory
     return if parent.nil? || parent.directory?
 
@@ -142,10 +141,10 @@ class FileSystemNode < ApplicationRecord
     return unless parent
 
     logger.debug "Updating parent size for node #{parent.id}"
-    
+
     # Expire cache do parent
     parent.expire_cache('total_size')
-    
+
     # Use background job para operações pesadas
     if parent.children.count > 100
       UpdateParentSizeJob.perform_later(parent.id)

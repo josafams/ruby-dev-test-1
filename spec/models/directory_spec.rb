@@ -37,7 +37,7 @@ RSpec.describe Directory, type: :model do
         documents,
         'test.txt',
         content: 'test content',
-        storage_type: 'blob'
+        storage_type: 'blob',
       )
       expect(service_instance).to have_received(:call)
     end

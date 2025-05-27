@@ -23,7 +23,7 @@ module FileStorage
       log_operation('Disk write') do
         with_retry(max_attempts: 3, delay: 0.1, rescue_class: DiskIOError) do
           logger.debug "Writing to disk: #{file_content.file_path}, size: #{data.bytesize} bytes"
-          
+
           FileUtils.mkdir_p(::File.dirname(file_content.file_path))
           ::File.write(file_content.file_path, data)
 

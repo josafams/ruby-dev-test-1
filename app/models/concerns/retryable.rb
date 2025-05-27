@@ -8,7 +8,7 @@ module Retryable
   end
 
   class_methods do
-    def with_retry(max_attempts: 3, delay: 0.5, backoff: 2, rescue_class: StandardError, &block)
+    def with_retry(max_attempts: 3, delay: 0.5, backoff: 2, rescue_class: StandardError)
       attempt = 1
       begin
         yield
@@ -27,13 +27,13 @@ module Retryable
     end
   end
 
-  def with_retry(max_attempts: 3, delay: 0.5, backoff: 2, rescue_class: StandardError, &block)
+  def with_retry(max_attempts: 3, delay: 0.5, backoff: 2, rescue_class: StandardError, &)
     self.class.with_retry(
       max_attempts: max_attempts,
       delay: delay,
       backoff: backoff,
       rescue_class: rescue_class,
-      &block
+      &
     )
   end
-end 
+end

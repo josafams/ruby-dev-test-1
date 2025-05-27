@@ -6,7 +6,7 @@ RSpec.describe FileCreationService, type: :service do
   let(:content) { 'Hello, World!' }
 
   describe '#call' do
-    it 'cria arquivo sem conteúdo' do
+    it 'creates a file without content' do
       service = described_class.new(directory, file_name)
       file = service.call
 
@@ -17,7 +17,7 @@ RSpec.describe FileCreationService, type: :service do
       expect(file.file_content).to be_nil
     end
 
-    it 'cria arquivo com conteúdo' do
+    it 'creates a file with content' do
       service = described_class.new(directory, file_name, content: content)
       file = service.call
 
@@ -28,11 +28,11 @@ RSpec.describe FileCreationService, type: :service do
       expect(file.size).to eq(content.bytesize)
     end
 
-    it 'cria arquivo com storage personalizado' do
+    it 'creates a file with custom storage' do
       service = described_class.new(directory, file_name, content: content, storage_type: 's3')
       file = service.call
 
       expect(file.file_content.storage_type).to eq('s3')
     end
   end
-end 
+end
